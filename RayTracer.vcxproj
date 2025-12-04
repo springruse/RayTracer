@@ -144,15 +144,19 @@
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Ray.cpp" />
     <ClCompile Include="Source\Renderer.cpp" />
+    <ClCompile Include="Source\Scene.cpp" />
     <ClCompile Include="Source\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Camera.h" />
     <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\Framebuffer.h" />
+    <ClInclude Include="Source\Object.h" />
     <ClInclude Include="Source\Random.h" />
     <ClInclude Include="Source\Ray.h" />
     <ClInclude Include="Source\Renderer.h" />
+    <ClInclude Include="Source\Scene.h" />
+    <ClInclude Include="Source\Sphere.h" />
     <ClInclude Include="Source\Time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

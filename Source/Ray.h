@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include "Color.h"
 
 struct ray_t {
 
@@ -19,6 +20,7 @@ struct ray_t {
 struct raycastHit_t {
 	glm::vec3 point;
 	glm::vec3 normal;
-	float direction;
+	float distance;
 
+	color3_t color;
 };
