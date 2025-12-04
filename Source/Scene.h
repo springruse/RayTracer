@@ -9,7 +9,8 @@ class Scene
 public:
 	Scene() = default;
 
-	void Render(class Framebuffer& framebuffer, const class Camera& camera);
+	//void Render(class Framebuffer& framebuffer, const class Camera& camera);
+	void Render(class Framebuffer& framebuffer, const class Camera& camera, int numSamples = 10);
 	void AddObject(std::unique_ptr<Object> object);
 	void SetSky(const color3_t& skyBottom, const color3_t& skyTop) {
 		this->skyBottom = skyBottom;
@@ -18,7 +19,7 @@ public:
 
 private:
 	// trace the ray into the scene
-	color3_t Trace(const struct ray_t& ray, float minDistance, float maxDistance, raycastHit_t& raycastHit);
+	color3_t Trace(const struct ray_t& ray, float minDistance, float maxDistance);
 
 	
 private:

@@ -65,7 +65,7 @@ int main() {
 		// draw to frame buffer
 		framebuffer.Clear({ 0, 0, 0, 255 });
 		/*for (int i = 0; i < 300; i++) framebuffer.DrawPoint(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, { 255, 255, 255, 255 });*/
-		scene.Render(framebuffer, camera);
+		scene.Render(framebuffer, camera, 50);
 		// update frame buffer, copy buffer pixels to texture
 		framebuffer.Update();
 
