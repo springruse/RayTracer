@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include "Color.h"
 
+
 struct ray_t {
 
 	ray_t(glm::vec3 origin = { 1,0,0 }, glm::vec3 direction = { 0,90,0 }) : origin(origin), direction(direction) {};
@@ -21,6 +22,6 @@ struct raycastHit_t {
 	glm::vec3 point;
 	glm::vec3 normal;
 	float distance;
+	class Material* material;
 
-	color3_t color;
 };

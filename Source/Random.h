@@ -153,6 +153,7 @@ namespace random {
         do {
             v = getReal(glm::vec3{ -1 }, glm::vec3{ -1 });
         } while (glm::length2(v) > 1.0);
+        return v;
     }
 
     inline glm::vec3 onUnitSphere() {

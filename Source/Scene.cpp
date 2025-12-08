@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "glm/glm.hpp"
 #include "Random.h"
+#include "material.h"
 #include <iostream>
 
 void Scene::Render(Framebuffer& framebuffer, const Camera& camera, int numSamples) {
@@ -63,8 +64,9 @@ void Scene::AddObject(std::unique_ptr<Object> object) {
 	objects.push_back(std::move(object));
 }
 
-color3_t Scene::Trace(const ray_t& ray, float minDistance, float maxDistance) {
+color3_t Scene::Trace(const ray_t& ray, float minDistance, float maxDistance, int maxDepth) {
 
+	if (maxDepth == 0) return glm::vec3({0,0,0});
 	bool rayHit = false;
 	float closestDistance = maxDistance;
 	raycastHit_t raycastHit;
@@ -80,15 +82,17 @@ color3_t Scene::Trace(const ray_t& ray, float minDistance, float maxDistance) {
 		}
 	}
 
-	// check if ray hit object
-	if (rayHit)	{
-		color3_t color = (raycastHit.normal + glm::vec3{ 1 }) * 0.5f;
-
-		float dist = glm::distance(ray.origin, raycastHit.point);
-
-		float shade = 1.0f - glm::clamp(dist / 10.0f, 0.0f, 1.0f); // scale this distance for darker shade
-
-		return color * shade; // disable shade if we dont want to see the shading
+	if (rayHit) {
+		color3_t attenuation;
+		ray_t scattered;
+		// get raycast hit matereial, get material color and scattered ray 
+		if (raycastHit.material->Scatter(ray, raycastHit, attenuation, scattered)) {
+			// trace scattered ray, final color will be the product of all the material colors
+			return attenuation * Trace(scattered, minDistance, maxDistance, maxDepth - 1);
+		}
+		else {
+			return raycastHit.material->GetEmissive();
+		}
 	}
 
 	// draw sky colors based on the ray y position
@@ -98,8 +102,6 @@ color3_t Scene::Trace(const ray_t& ray, float minDistance, float maxDistance) {
 	
 	// interpolate between sky bottom (0) to sky top (1)
 	color3_t color = glm::mix(skyBottom, skyTop, t);
-
-
 
 	return color;
 }
