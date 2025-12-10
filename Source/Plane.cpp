@@ -19,7 +19,6 @@ bool Plane::Hit(const ray_t& ray, float minDistance, float maxDistance, raycastH
 
 bool Plane::Raycast(const ray_t& ray, const glm::vec3& point, const glm::vec3& normal, float minDistance, float maxDistance, float& t)
 {
-    return true;
     // check dot product of ray direction and plane normal, if result is 0 then ray direction is parallel to plane
     // the dot product is 0 if the two vectors are perpendicular (90 degrees)
     float denominator = glm::dot(ray.direction, normal);
@@ -35,7 +34,7 @@ bool Plane::Raycast(const ray_t& ray, const glm::vec3& point, const glm::vec3& n
     // t represents the distance along the ray where it hits the plane.
     // A positive t means the plane is in front of the ray; negative t
     // means the ray is pointing away from the plane.
-    /*t = (point - ray.origin) * normal / denominator;*///(planePoint - rayOrigin) · planeNormal / denominator;
+    t = glm::dot(point - ray.origin, normal) / denominator; //(planePoint - rayOrigin) · planeNormal / denominator;
 
 
     // return true if within distance bounds

@@ -9,6 +9,7 @@
 #include "Sphere.h"
 #include "Random.h"
 #include "Material.h"
+#include "Plane.h"
 #include <array>
 #include <memory>
 
@@ -27,7 +28,7 @@ int main() {
 
 	float aspectRatio = (float)framebuffer.width / (float)framebuffer.height;
 	Camera camera(70.0f, aspectRatio);
-	camera.SetView({ 0, 0, 5 }, { 0, 0, 0 });
+	camera.SetView({ 0, 2, 5 }, { 0, 0, 0 });
 	scene.SetSky({ 1.0f, 0.4f, 0.3f }, { 0.1f, 0.2f, 0.8f });
 
 	
@@ -47,12 +48,17 @@ int main() {
 	std::array<std::shared_ptr<Material>, 5> materials = { red, green, blue, light, metal };
 
 	for (int i = 0; i < 15; i++) {
-		glm::vec3 position = random::getReal(glm::vec3{ -3.0f }, glm::vec3{ 3.0f });
+		// randomize mize size and position, place spheres on plane
+		float radius = random::getReal(0.2f, 0.5f);
+		glm::vec3 position = random::getReal(glm::vec3{ -3.0f, radius, -3.0f }, glm::vec3{ 3.0f, radius, 3.0f });
 
-		std::unique_ptr<Object> sphere = std::make_unique<Sphere>(Transform{ position }, random::getReal(0.2f, 1.0f), materials[random::getInt(0,4)]);
+		std::unique_ptr<Object> sphere = std::make_unique<Sphere>(Transform{ position }, radius, materials[random::getInt(4)]);
 		scene.AddObject(std::move(sphere));
 	}
 	
+	auto gray = std::make_shared<Lambertian>(color3_t{ 0.2f, 0.2f, 0.2f });
+	std::unique_ptr<Plane> plane = std::make_unique<Plane>(Transform{ glm::vec3{ 0.0f, 0.0f, 0.0f } }, gray);
+	scene.AddObject(std::move(plane));
 
 	SDL_Event event;
 	bool quit = false;
