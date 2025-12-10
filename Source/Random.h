@@ -151,7 +151,7 @@ namespace random {
     inline glm::vec3 inUnitSphere() {
         glm::vec3 v;
         do {
-            v = getReal(glm::vec3{ -1 }, glm::vec3{ -1 });
+            v = getReal(glm::vec3{ -1 }, glm::vec3{ 1 });
         } while (glm::length2(v) > 1.0);
         return v;
     }

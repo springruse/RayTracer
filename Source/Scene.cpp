@@ -28,7 +28,7 @@ void Scene::Render(Framebuffer& framebuffer, const Camera& camera, int numSample
 				// get ray from camera
 				ray_t ray = camera.GetRay(point);
 				// trace ray
-				color += Trace(ray, 0, 100);
+				color += Trace(ray, 0.0001f, 100.0f, 10);
 			}
 			// get average color = (color / number samples)
 			color /= numSamples;
@@ -37,36 +37,16 @@ void Scene::Render(Framebuffer& framebuffer, const Camera& camera, int numSample
 	}
 }
 
-//void Scene::Render(Framebuffer& framebuffer, const Camera& camera) {
-//	// trace ray for every framebuffer pixel
-//	for (int y = 0; y < framebuffer.height; y++) {
-//		for (int x = 0; x < framebuffer.width; x++)	{
-//			// set pixel (x,y) coordinates)
-//			glm::vec2 pixel{ x, y };
-//			// normalize (0 <-> 1) the pixel value (pixel / vec2{ framebuffer.width, framebuffer.height }
-//			glm::vec2 point = pixel / glm::vec2{ framebuffer.width, framebuffer.height };
-//			// flip the y value (bottom = 0, top = 1)
-//			point.y = 1 - point.y;
-//
-//			// get ray from camera
-//			ray_t ray = camera.GetRay(point);
-//			// trace ray
-//			
-//			// 0 = min ray distance, 100 = max ray distance
-//			color3_t color = Trace(ray, 0, 100);
-//
-//			framebuffer.DrawPoint(x, y, ColorConvert(color));
-//		}
-//	}
-//}
-
 void Scene::AddObject(std::unique_ptr<Object> object) {
 	objects.push_back(std::move(object));
 }
 
 color3_t Scene::Trace(const ray_t& ray, float minDistance, float maxDistance, int maxDepth) {
 
-	if (maxDepth == 0) return glm::vec3({0,0,0});
+	if (maxDepth == 0) {
+		return glm::vec3({ 0,0,0 });
+	}
+
 	bool rayHit = false;
 	float closestDistance = maxDistance;
 	raycastHit_t raycastHit;

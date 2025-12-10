@@ -15,7 +15,7 @@ public:
         glm::vec3 oc = ray.origin - transform.position;
 
         float a = glm::dot(ray.direction, ray.direction);
-        float b = 2.0f * glm::dot(oc, ray.direction);
+        float b = 2.0f * glm::dot(ray.direction, oc);
         float c = glm::dot(oc, oc) - radius * radius;
 
         float discriminant = b * b - 4 * a * c;

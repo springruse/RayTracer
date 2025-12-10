@@ -30,6 +30,7 @@ int main() {
 	camera.SetView({ 0, 0, 5 }, { 0, 0, 0 });
 	scene.SetSky({ 1.0f, 0.4f, 0.3f }, { 0.1f, 0.2f, 0.8f });
 
+	
 	auto red = std::make_shared<Lambertian>(color3_t{ 1.0f, 0.0f, 0.0f });
 	auto green = std::make_shared<Lambertian>(color3_t{ 0.0f, 1.0f, 0.0f });
 	auto blue = std::make_shared<Lambertian>(color3_t{ 0.0f, 0.0f, 1.0f });
@@ -37,12 +38,12 @@ int main() {
 	auto metal = std::make_shared<Metal>(color3_t{ 1.0f, 1.0f, 1.0f }, 0.0f);
 
 	auto sphere = std::make_unique<Sphere>(
-		Transform{ glm::vec3 {0,0,-2} },
-		2.0f,
+		Transform{ glm::vec3 {0,0,0} },
+		0.5f,
 		red
 	);
 	scene.AddObject(std::move(sphere));
-
+	
 	std::array<std::shared_ptr<Material>, 5> materials = { red, green, blue, light, metal };
 
 	for (int i = 0; i < 15; i++) {
@@ -51,7 +52,7 @@ int main() {
 		std::unique_ptr<Object> sphere = std::make_unique<Sphere>(Transform{ position }, random::getReal(0.2f, 1.0f), materials[random::getInt(0,4)]);
 		scene.AddObject(std::move(sphere));
 	}
-
+	
 
 	SDL_Event event;
 	bool quit = false;
@@ -71,7 +72,7 @@ int main() {
 		// draw to frame buffer
 		framebuffer.Clear({ 0, 0, 0, 255 });
 		/*for (int i = 0; i < 300; i++) framebuffer.DrawPoint(rand() % SCREEN_WIDTH, rand() % SCREEN_HEIGHT, { 255, 255, 255, 255 });*/
-		scene.Render(framebuffer, camera, 50);
+		scene.Render(framebuffer, camera, 5);
 		// update frame buffer, copy buffer pixels to texture
 		framebuffer.Update();
 

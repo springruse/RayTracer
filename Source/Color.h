@@ -1,6 +1,8 @@
 #pragma once
+#define GLM_ENABLE_EXPERIMENTAL
 #include <SDL3/SDL.h>
 #include <glm/glm.hpp>
+#include <glm/gtx/color_space.hpp>
 #include <algorithm>
 
 // use alias to clarify type name
@@ -9,6 +11,14 @@ using color4_t = glm::vec4;
 
 inline float LinearToGamma(float linear) {
 	return (linear > 0) ? std::sqrt(linear) : 0;
+}
+
+inline color3_t HSVtoRGB(const color3_t& hsv) {
+	return glm::rgbColor(hsv);
+}
+
+inline color3_t RGBtoHSV(float hue, float saturation, float value) {
+	return glm::hsvColor(glm::vec3{ hue, saturation, value });
 }
 
 // convert from RGBA(0.0 - 1.0) color to (0 - 255) color
