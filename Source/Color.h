@@ -13,11 +13,11 @@ inline float LinearToGamma(float linear) {
 	return (linear > 0) ? std::sqrt(linear) : 0;
 }
 
-inline color3_t HSVtoRGB(const color3_t& hsv) {
+inline color3_t HSVtoRGB(const glm::vec3& hsv) {
 	return glm::rgbColor(hsv);
 }
 
-inline color3_t RGBtoHSV(float hue, float saturation, float value) {
+inline color3_t HSVtoRGB(float hue, float saturation, float value) {
 	return glm::hsvColor(glm::vec3{ hue, saturation, value });
 }
 
